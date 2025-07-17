@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE [dbo].[GetCountryById]
+	@CountryId UNIQUEIDENTIFIER
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+	SELECT
+	Id,
+	Name
+    FROM Countries WHERE Id = @CountryId
+    FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
+END;

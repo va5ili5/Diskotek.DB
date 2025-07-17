@@ -1,0 +1,4 @@
+﻿CREATE TYPE [dbo].[ArtistsIdsList] AS TABLE
+(
+	ArtistId UNIQUEIDENTIFIER NOT NULL
+)

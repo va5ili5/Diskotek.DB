@@ -1,0 +1,4 @@
+﻿CREATE TYPE [dbo].[StylesIdsList] AS TABLE
+(
+	StyleId UNIQUEIDENTIFIER NOT NULL
+)

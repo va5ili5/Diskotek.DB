@@ -56,5 +56,56 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\Tables" />
+    <Folder Include="Snapshots" />
+    <Folder Include="dbo\Types" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Stored Procedures\GetLabelById.sql" />
+    <Build Include="dbo\Stored Procedures\GetArtistById.sql" />
+    <Build Include="dbo\Stored Procedures\GetArtists.sql" />
+    <Build Include="dbo\Stored Procedures\GetLabels.sql" />
+    <Build Include="dbo\Stored Procedures\GetReleaseById.sql" />
+    <Build Include="dbo\Stored Procedures\GetReleases.sql" />
+    <Build Include="dbo\Tables\Artists.sql" />
+    <Build Include="dbo\Tables\Countries.sql" />
+    <Build Include="dbo\Tables\Formats.sql" />
+    <Build Include="dbo\Tables\Genres.sql" />
+    <Build Include="dbo\Tables\Images.sql" />
+    <Build Include="dbo\Tables\Labels.sql" />
+    <Build Include="dbo\Tables\ReleaseArtists.sql" />
+    <Build Include="dbo\Tables\ReleaseGenres.sql" />
+    <Build Include="dbo\Tables\Releases.sql" />
+    <Build Include="dbo\Tables\ReleaseStyles.sql" />
+    <Build Include="dbo\Tables\Styles.sql" />
+    <Build Include="dbo\Tables\Users.sql" />
+    <Build Include="dbo\Stored Procedures\GetGenres.sql" />
+    <Build Include="dbo\Stored Procedures\GetGenreById.sql" />
+    <Build Include="dbo\Stored Procedures\GetStyles.sql" />
+    <Build Include="dbo\Stored Procedures\GetStyleById.sql" />
+    <Build Include="dbo\Stored Procedures\UpsertGenre.sql" />
+    <Build Include="dbo\Stored Procedures\UpsertStyle.sql" />
+    <Build Include="dbo\Stored Procedures\UpsertLabel.sql" />
+    <Build Include="dbo\Stored Procedures\UpsertImages.sql" />
+    <Build Include="dbo\Stored Procedures\GetFormats.sql" />
+    <Build Include="dbo\Stored Procedures\GetFormatById.sql" />
+    <Build Include="dbo\Stored Procedures\UpsertFormat.sql" />
+    <Build Include="dbo\Stored Procedures\GetCountries.sql" />
+    <Build Include="dbo\Stored Procedures\UpsertCountry.sql" />
+    <Build Include="dbo\Stored Procedures\GetCountryById.sql" />
+    <Build Include="dbo\Types\ArtistsIdsList.sql" />
+    <Build Include="dbo\Stored Procedures\UpsertArtist.sql" />
+    <Build Include="dbo\Stored Procedures\UpsertRelease.sql" />
+    <Build Include="dbo\Types\GenresIdsList.sql" />
+    <Build Include="dbo\Types\StylesIdsList.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteStyle.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteGenre.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteFormat.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteArtist.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Snapshots\Diskotek.DB_20250705_23-15-26.dacpac" />
   </ItemGroup>
 </Project>

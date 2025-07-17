@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE [dbo].[GetFormatById]
+	@FormatId UNIQUEIDENTIFIER
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+	SELECT
+	Id,
+	Name
+    FROM Formats WHERE Id = @FormatId
+    FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
+END;
