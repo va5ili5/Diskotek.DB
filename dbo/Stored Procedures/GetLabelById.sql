@@ -34,11 +34,11 @@ BEGIN
             PagedRelease.Title,
 			Image.ImageUrl
             FROM PagedReleases PagedRelease
-			INNER JOIN Images Image ON PagedRelease.Id = Image.ReleaseId AND Image.IsPrimary = 1
+			INNER JOIN Images Image ON PagedRelease.Id = Image.EntityId AND Image.EntityType='Release' AND Image.IsPrimary = 1
             FOR JSON PATH
         ) AS Releases
     FROM Labels Label
-	INNER JOIN Images LabelImage ON LabelImage.LabelId = @LabelId AND LabelImage.IsPrimary = 1  
+	INNER JOIN Images LabelImage ON LabelImage.EntityId = @LabelId AND LabelImage.EntityType='Label' AND LabelImage.IsPrimary = 1  
     WHERE Label.Id = @LabelId
     FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
 END;

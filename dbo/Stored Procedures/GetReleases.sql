@@ -32,7 +32,7 @@ BEGIN
         Image.Id,
         Image.ImageUrl
 		FROM Images Image
-		WHERE Image.ReleaseId = Release.Id and Image.IsPrimary = 1
+		WHERE Image.EntityId = Release.Id AND Image.EntityType='Release' AND Image.IsPrimary = 1
 		FOR JSON PATH, WITHOUT_ARRAY_WRAPPER) As Image,
 		ISNULL((
 				SELECT 

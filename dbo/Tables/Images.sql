@@ -1,13 +1,19 @@
-﻿CREATE TABLE [dbo].[Images]
-(
-	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
-	[ReleaseId] UNIQUEIDENTIFIER NULL,
-    [ArtistId] UNIQUEIDENTIFIER NULL,
-    [LabelId] UNIQUEIDENTIFIER NULL,
-    [ImageUrl] NVARCHAR(2048) NOT NULL,
-    [IsPrimary] BIT DEFAULT 0,
-    [SortOrder] INT DEFAULT 0,
-    FOREIGN KEY (ReleaseId) REFERENCES Releases(Id) ON DELETE CASCADE,
-    FOREIGN KEY (ArtistId) REFERENCES Artists(Id) ON DELETE CASCADE,
-    FOREIGN KEY (LabelId) REFERENCES Labels(Id) ON DELETE CASCADE
-)
+﻿CREATE TABLE [dbo].[Images] (
+    [Id]         UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [EntityId]   UNIQUEIDENTIFIER NOT NULL,
+    [EntityType] NVARCHAR (50)    NOT NULL,
+    [ImageUrl]   NVARCHAR (500)   NOT NULL,
+    [SortOrder]  INT              NOT NULL,
+    [IsPrimary]  BIT              DEFAULT ((0)) NOT NULL,
+    [CreatedAt]  DATETIME         DEFAULT (getutcdate()) NOT NULL,
+    [CreatedBy]  UNIQUEIDENTIFIER NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_Images_Entity]
+    ON [dbo].[Images]([EntityType] ASC, [EntityId] ASC);
+

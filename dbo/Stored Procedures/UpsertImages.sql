@@ -1,8 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[UpsertImages]
 	@Id UNIQUEIDENTIFIER,
-	@ReleaseId UNIQUEIDENTIFIER = NULL,
-    @ArtistId UNIQUEIDENTIFIER = NULL,
-    @LabelId UNIQUEIDENTIFIER = NULL,
+	@EntityId UNIQUEIDENTIFIER = NULL,
+    @EntityType NVARCHAR(20) = NULL,
     @ImageUrl NVARCHAR(2048),
     @IsPrimary BIT,
     @SortOrder INT
@@ -18,15 +17,14 @@ BEGIN
                 ImageUrl = @ImageUrl,
                 IsPrimary = @IsPrimary,
                 SortOrder = @SortOrder,
-                ReleaseId = @ReleaseId,
-                LabelId = @LabelId,
-                ArtistId = @ArtistId
+                EntityId = @EntityId,
+                EntityType = @EntityType
             WHERE Id = @Id;
         END
         ELSE
         BEGIN
             -- Insert new image
-            INSERT INTO Images (ImageUrl, IsPrimary, SortOrder, ReleaseId, LabelId, ArtistId)
-            VALUES (@ImageUrl, @IsPrimary, @SortOrder, @ReleaseId, @LabelId, @ArtistId);
+            INSERT INTO Images (ImageUrl, IsPrimary, SortOrder, EntityId, EntityType)
+            VALUES (@ImageUrl, @IsPrimary, @SortOrder, @EntityId, @EntityType);
         END
 END

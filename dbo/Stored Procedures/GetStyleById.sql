@@ -14,7 +14,7 @@ BEGIN
 		Release.Title,
 		Image.ImageUrl
 		FROM Releases Release
-		INNER JOIN Images Image ON Release.Id = Image.ReleaseId AND Image.IsPrimary = 1
+		INNER JOIN Images Image ON Release.Id = Image.EntityId AND Image.EntityType = 'Release' AND Image.IsPrimary = 1
         INNER JOIN ReleaseStyles ReleaseStyle ON ReleaseStyle.StyleId = @StyleId AND ReleaseStyle.ReleaseId = Release.Id
 		ORDER BY NEWID()
 		FOR JSON PATH

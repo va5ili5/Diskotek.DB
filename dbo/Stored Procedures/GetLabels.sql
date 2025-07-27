@@ -31,7 +31,7 @@ BEGIN
                 Image.Id,
                 Image.ImageUrl
 		    FROM Images Image
-		    WHERE Image.LabelId = Labels.Id and Image.IsPrimary = 1
+		    WHERE Image.EntityId = Labels.Id AND Image.EntityType='Label' AND Image.IsPrimary = 1
 		    FOR JSON PATH, INCLUDE_NULL_VALUES, WITHOUT_ARRAY_WRAPPER) As Image
 		FROM PagedLabels Labels
             FOR JSON PATH, INCLUDE_NULL_VALUES

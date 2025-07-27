@@ -31,7 +31,7 @@ BEGIN
         Artist.Id,
         Artist.Name,
 		Artist.Profile,
-		LabelImage.ImageUrl,
+		ArtistImage.ImageUrl,
         @TotalCount AS TotalCount,
         (
             SELECT 
@@ -39,11 +39,11 @@ BEGIN
             PagedRelease.Title,
 			Image.ImageUrl
             FROM PagedReleases PagedRelease
-			INNER JOIN Images Image ON PagedRelease.Id = Image.ReleaseId AND Image.IsPrimary = 1
+			INNER JOIN Images Image ON PagedRelease.Id = Image.EntityId AND Image.EntityType='Release' AND Image.IsPrimary = 1
             FOR JSON PATH
         ) AS Releases
     FROM Artists Artist
-    INNER JOIN Images LabelImage ON LabelImage.LabelId = @ArtistId AND LabelImage.IsPrimary = 1  
+    INNER JOIN Images ArtistImage ON ArtistImage.EntityId = @ArtistId AND ArtistImage.EntityType='Artist' AND ArtistImage.IsPrimary = 1  
     WHERE Artist.Id = @ArtistId
     FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
 END;

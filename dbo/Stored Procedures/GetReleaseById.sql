@@ -40,21 +40,12 @@ BEGIN
 		INNER JOIN ReleaseStyles ReleaseStyle ON Style.Id = ReleaseStyle.StyleId
 		WHERE ReleaseStyle.ReleaseId = @ReleaseId
 		FOR JSON PATH)
-	,'[]') As Styles,
-	ISNULL((
-		SELECT 
-        Image.Id,
-        Image.ImageUrl,
-		Image.IsPrimary
-		FROM Images Image
-		WHERE Image.ReleaseId = @ReleaseId
-		FOR JSON PATH)
-	,'[]') As Images
+	,'[]') As Styles
 	FROM Releases Release
 	INNER JOIN Formats Format ON Format.Id = Release.FormatId
 	INNER JOIN Labels Label ON Label.Id = Release.LabelId
 	INNER JOIN Countries Country ON Country.Id = Release.CountryId
-	INNER JOIN Images Image ON Image.ReleaseId = @ReleaseId AND Image.IsPrimary = 1  
+	INNER JOIN Images Image ON Image.EntityId = @ReleaseId AND Image.EntityType = 'Release' AND Image.IsPrimary = 1  
 	WHERE [Release].Id = @ReleaseId
 	FOR JSON PATH, INCLUDE_NULL_VALUES, WITHOUT_ARRAY_WRAPPER;
 END;

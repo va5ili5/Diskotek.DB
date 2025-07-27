@@ -31,7 +31,7 @@ BEGIN
                         Image.Id,
                         Image.ImageUrl
 		            FROM Images Image
-		            WHERE Image.ArtistId = Artists.Id and Image.IsPrimary = 1
+		            WHERE Image.EntityId = Artists.Id AND Image.EntityType='Artist' AND Image.IsPrimary = 1
 		            FOR JSON PATH, WITHOUT_ARRAY_WRAPPER) As Image
             FROM PagedArtists Artists
             FOR JSON PATH, INCLUDE_NULL_VALUES
