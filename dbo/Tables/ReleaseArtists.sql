@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[ReleaseArtists]
 (
-    [ReleaseId] UNIQUEIDENTIFIER NOT NULL,
-    [ArtistId] UNIQUEIDENTIFIER NOT NULL,
+    [ReleaseId] INT NOT NULL,
+    [ArtistId] INT NOT NULL,
     PRIMARY KEY (ReleaseId, ArtistId),
     CONSTRAINT FK_ReleaseArtists_Releases FOREIGN KEY (ReleaseId)
         REFERENCES Releases(Id) ON DELETE CASCADE,

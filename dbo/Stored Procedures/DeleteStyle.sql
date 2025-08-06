@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[DeleteStyle]
-	@StyleId UNIQUEIDENTIFIER
+	@StyleId INT
 AS
 BEGIN
 	SET NOCOUNT ON;

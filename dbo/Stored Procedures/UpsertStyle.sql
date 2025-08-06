@@ -1,33 +1,33 @@
 ﻿CREATE PROCEDURE [dbo].[UpsertStyle]
-    @Id UNIQUEIDENTIFIER = NULL,
+    @Id INT = NULL,
     @Name NVARCHAR (100),
     @Description NVARCHAR (MAX),
     @IsActive BIT,
-    @GenreId UNIQUEIDENTIFIER,
-    @UserId UNIQUEIDENTIFIER
+    @GenreId INT,
+    @UserId INT
 AS
 BEGIN
     SET NOCOUNT ON;
-    DECLARE @StyleId UNIQUEIDENTIFIER = ISNULL(@Id, NEWID());
     IF EXISTS (SELECT 1
     FROM Styles
-    WHERE Id = @StyleId)
+    WHERE Id = @Id)
 	BEGIN
         UPDATE Styles
-    SET Name        = @Name,
-        Description = @Description,
-		IsActive	= @IsActive,
-        GenreId     = @GenreId,
-        UpdatedBy   = @UserId,
-        UpdatedAt   = SYSUTCDATETIME()
-	WHERE Id = @StyleId;
+        SET Name        = @Name,
+            Description = @Description,
+            IsActive	= @IsActive,
+            GenreId     = @GenreId,
+            UpdatedBy   = @UserId,
+            UpdatedAt   = SYSUTCDATETIME()
+        WHERE Id = @Id;
+        SELECT @Id AS Id;
     END
 	ELSE
 	BEGIN
         INSERT INTO Styles
-            (Id, Name, Description, GenreId, CreatedBy)
+            (Name, Description, GenreId, CreatedBy)
         VALUES
-            (@StyleId, @Name, @Description, @GenreId, @UserId);
+            (@Name, @Description, @GenreId, @UserId);
+        SELECT SCOPE_IDENTITY() AS Id;
     END
-    SELECT @StyleId AS Id;
 END

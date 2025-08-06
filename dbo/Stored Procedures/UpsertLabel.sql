@@ -1,18 +1,17 @@
 ﻿
 CREATE PROCEDURE [dbo].[UpsertLabel]
-    @Id UNIQUEIDENTIFIER = NULL,
+    @Id INT = NULL,
     @Name NVARCHAR(100),
     @Description NVARCHAR(MAX),
     @IsActive BIT,
-    @UserId UNIQUEIDENTIFIER
+    @UserId INT
 AS
 BEGIN
     SET NOCOUNT ON;
-    DECLARE @LabelId UNIQUEIDENTIFIER = ISNULL(@Id, NEWID());
     -- Check if the label already exists
     IF EXISTS (SELECT 1
     FROM Labels
-    WHERE Id = @LabelId)
+    WHERE Id = @Id)
     BEGIN
         -- Update existing label
         UPDATE Labels
@@ -21,15 +20,16 @@ BEGIN
 			IsActive = @IsActive,
 			UpdatedBy = @UserId,
 			UpdatedAt = SYSUTCDATETIME()
-        WHERE Id = @LabelId;
+        WHERE Id = @Id;
+        SELECT @Id AS Id;
     END
     ELSE
     BEGIN
         -- Insert new label
         INSERT INTO Labels
-            (Id, Name, Description, CreatedBy)
+            (Name, Description, CreatedBy)
         VALUES
-            (@LabelId, @Name, @Description, @UserId);
+            (@Name, @Description, @UserId);
+        SELECT SCOPE_IDENTITY() AS Id;
     END
-    SELECT @LabelId AS Id;
 END

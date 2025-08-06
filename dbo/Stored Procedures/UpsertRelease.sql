@@ -1,12 +1,12 @@
 ﻿CREATE PROCEDURE [dbo].[UpsertRelease]
-    @Id UNIQUEIDENTIFIER = NULL,
+    @Id INT = NULL,
     @Title NVARCHAR(255),
     @CatalogNumber NVARCHAR(100),
     @Description NVARCHAR(MAX),
     @ReleaseDate DATETIME,
-    @FormatId UNIQUEIDENTIFIER,
-    @LabelId UNIQUEIDENTIFIER,
-    @CountryId UNIQUEIDENTIFIER,
+    @FormatId INT,
+    @LabelId INT,
+    @CountryId INT,
     @ArtistIds ArtistsIdsList READONLY,
     -- Table-valued parameter for artist IDs
     @GenreIds GenresIdsList READONLY,
@@ -14,18 +14,17 @@
     @StyleIds StylesIdsList READONLY,
     -- Table-valued parameter for style IDs
     @Tracks TrackList READONLY,
-    @UserId UNIQUEIDENTIFIER
+    @UserId INT
 AS
 BEGIN
     SET NOCOUNT ON;
 
     BEGIN TRY
             BEGIN TRANSACTION;
-			DECLARE @ReleaseId UNIQUEIDENTIFIER = ISNULL(@Id, NEWID())
             -- Upsert Release
             IF EXISTS (SELECT 1
     FROM Releases
-    WHERE Id = @ReleaseId)
+    WHERE Id = @Id)
             BEGIN
         UPDATE Releases
                 SET Title = @Title,
@@ -37,52 +36,52 @@ BEGIN
                     CountryId = @CountryId,
                     UpdatedBy = @UserId,
                     UpdatedAt = SYSUTCDATETIME()
-                    WHERE Id = @ReleaseId;
+                    WHERE Id = @Id;
+        SELECT @Id AS Id;
     END
         ELSE
         BEGIN
         INSERT INTO Releases
             (
-            Id, Title, CatalogNumber, Description, ReleaseDate,
+            Title, CatalogNumber, Description, ReleaseDate,
             FormatId, LabelId, CountryId, CreatedBy, CreatedAt
             )
         VALUES
             (
-                @ReleaseId, @Title, @CatalogNumber, @Description, @ReleaseDate,
+                @Title, @CatalogNumber, @Description, @ReleaseDate,
                 @FormatId, @LabelId, @CountryId, @UserId, SYSUTCDATETIME()
             );
-        SELECT @ReleaseId AS Id;
+        SET @Id = SCOPE_IDENTITY();
     END
-
         -- Remove existing artist links to avoid duplicates
-        DELETE FROM ReleaseArtists WHERE ReleaseId = @ReleaseId;
+        DELETE FROM ReleaseArtists WHERE ReleaseId = @Id;
 
         -- Insert new artist links
         INSERT INTO ReleaseArtists
         (ReleaseId, ArtistId)
-    SELECT @ReleaseId, ArtistId
+    SELECT @Id, ArtistId
     FROM @ArtistIds;
 
         -- Remove existing genres links to avoid duplicates
-        DELETE FROM ReleaseGenres WHERE ReleaseId = @ReleaseId;
+        DELETE FROM ReleaseGenres WHERE ReleaseId = @Id;
 
         -- Insert new genre links
         INSERT INTO ReleaseGenres
         (ReleaseId, GenreId)
-    SELECT @ReleaseId, GenreId
+    SELECT @Id, GenreId
     FROM @GenreIds;
 
         -- Remove existing styles links to avoid duplicates
-        DELETE FROM ReleaseStyles WHERE ReleaseId = @ReleaseId;
+        DELETE FROM ReleaseStyles WHERE ReleaseId = @Id;
 
         -- Insert new style links
         INSERT INTO ReleaseStyles
         (ReleaseId, StyleId)
-    SELECT @ReleaseId, StyleId
+    SELECT @Id, StyleId
     FROM @StyleIds;
 
         -- 5. UPSERT Tracks
-		 DECLARE @TrackId UNIQUEIDENTIFIER;
+		 DECLARE @TrackId INT;
 		 DECLARE track_cursor CURSOR FOR
 		 SELECT Id, Title, TrackNumber, Duration, Position
     FROM @Tracks
@@ -99,7 +98,7 @@ BEGIN
 		 BEGIN
         IF EXISTS(SELECT 1
         FROM Tracks
-        WHERE Id = @TrackId AND ReleaseId = @ReleaseId)
+        WHERE Id = @TrackId AND ReleaseId = @Id)
 			BEGIN
             UPDATE Tracks
 				SET Title		= @TitleTrack,
@@ -108,17 +107,17 @@ BEGIN
 					Position	= @Position,
 					UpdatedAt	= SYSUTCDATETIME(),
 					UpdatedBy	= @UserId
-					WHERE Id = @TrackId AND ReleaseId = @ReleaseId;
+					WHERE Id = @TrackId AND ReleaseId = @Id;
         END
 			ELSE
 			BEGIN
             INSERT INTO Tracks
                 (
-                Id, ReleaseId, Title, TrackNumber, Duration, Position, CreatedBy
+                ReleaseId, Title, TrackNumber, Duration, Position, CreatedBy
                 )
             VALUES
                 (
-                    ISNULL(@TrackId, NEWID()), @ReleaseId, @TitleTrack, @TrackNumber, @Duration, @Position, @UserId
+                    @Id, @TitleTrack, @TrackNumber, @Duration, @Position, @UserId
                 );
         END
         FETCH NEXT FROM track_cursor INTO @TrackId, @TitleTrack, @TrackNumber, @Duration, @Position;
@@ -156,7 +155,7 @@ BEGIN
 
 
         COMMIT TRANSACTION;
-		SELECT @ReleaseId AS Id;
+		SELECT @Id AS Id;
     END TRY
     BEGIN CATCH
         IF @@TRANCOUNT > 0

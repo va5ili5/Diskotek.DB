@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[GetArtistById]
-    @ArtistId UNIQUEIDENTIFIER,
+    @ArtistId INT,
     @PageNumber INT = 1,
     @PageSize INT = 10
 AS

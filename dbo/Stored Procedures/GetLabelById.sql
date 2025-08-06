@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[GetLabelById]
-    @LabelId UNIQUEIDENTIFIER,
+    @LabelId INT,
     @PageNumber INT = 1,
     @PageSize INT = 10
 AS

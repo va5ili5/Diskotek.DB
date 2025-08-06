@@ -1,18 +1,17 @@
 ﻿
 CREATE PROCEDURE [dbo].[UpsertArtist]
-    @Id UNIQUEIDENTIFIER = NULL,
+    @Id INT = NULL,
     @Name NVARCHAR(100),
     @Profile NVARCHAR(MAX),
     @IsActive BIT,
-    @UserId UNIQUEIDENTIFIER
+    @UserId INT
 AS
 BEGIN
     SET NOCOUNT ON;
-    DECLARE @ArtistId UNIQUEIDENTIFIER = ISNULL(@Id, NEWID());
     -- Check if the artist already exists
     IF EXISTS (SELECT 1
     FROM Artists
-    WHERE Id = @ArtistId)
+    WHERE Id = @Id)
     BEGIN
         -- Update existing artist
         UPDATE Artists
@@ -21,15 +20,16 @@ BEGIN
 			IsActive = @IsActive,
 			UpdatedBy = @UserId,
 			UpdatedAt = SYSUTCDATETIME()
-        WHERE Id = @ArtistId;
+        WHERE Id = @Id;
+        SELECT @Id AS Id;
     END
     ELSE
     BEGIN
         -- Insert new artist
         INSERT INTO Artists
-            (Id, Name, Profile, CreatedBy)
+            (Name, Profile, CreatedBy)
         VALUES
-            (@ArtistId, @Name, @Profile, @UserId);
+            (@Name, @Profile, @UserId);
+        SELECT SCOPE_IDENTITY() AS Id;
     END
-    SELECT @ArtistId AS Id;
 END

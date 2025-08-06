@@ -1,4 +1,4 @@
 ﻿CREATE TYPE [dbo].[StylesIdsList] AS TABLE
 (
-	StyleId UNIQUEIDENTIFIER NOT NULL
+	StyleId INT NOT NULL
 )

@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[DeleteArtist]
-	@ArtistId UNIQUEIDENTIFIER
+	@ArtistId INT
 AS
 BEGIN
 	SET NOCOUNT ON;

@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[UpsertImages]
-    @Id UNIQUEIDENTIFIER,
-    @EntityId UNIQUEIDENTIFIER = NULL,
+    @Id INT,
+    @EntityId INT = NULL,
     @EntityType NVARCHAR(20) = NULL,
     @ImageUrl NVARCHAR(2048),
     @IsPrimary BIT,
@@ -22,6 +22,8 @@ BEGIN
                 EntityId = @EntityId,
                 EntityType = @EntityType
             WHERE Id = @Id;
+
+        SELECT @Id AS Id;
     END
         ELSE
         BEGIN
@@ -30,5 +32,6 @@ BEGIN
             (ImageUrl, IsPrimary, SortOrder, EntityId, EntityType)
         VALUES
             (@ImageUrl, @IsPrimary, @SortOrder, @EntityId, @EntityType);
+        SELECT SCOPE_IDENTITY() AS Id;
     END
 END

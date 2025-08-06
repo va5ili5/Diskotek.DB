@@ -1,18 +1,17 @@
 ﻿
 CREATE PROCEDURE [dbo].[UpsertGenre]
-    @Id UNIQUEIDENTIFIER = NULL,
+    @Id INT = NULL,
     @Name NVARCHAR(100),
     @Description NVARCHAR(MAX),
     @IsActive BIT,
-    @UserId UNIQUEIDENTIFIER
+    @UserId INT
 AS
 BEGIN
     SET NOCOUNT ON;
-    DECLARE @GenreId UNIQUEIDENTIFIER = ISNULL(@Id, NEWID());
     -- Check if the genre already exists
     IF EXISTS (SELECT 1
     FROM Genres
-    WHERE Id = @GenreId)
+    WHERE Id = @Id)
     BEGIN
         -- Update existing genre
         UPDATE Genres
@@ -21,15 +20,16 @@ BEGIN
 			IsActive = @IsActive,
 			UpdatedBy = @UserId,
 			UpdatedAt = SYSUTCDATETIME()
-        WHERE Id = @GenreId;
+        WHERE Id = @Id;
+        SELECT @Id AS Id;
     END
     ELSE
     BEGIN
         -- Insert new genre
         INSERT INTO Genres
-            (Id, Name, Description, CreatedBy)
+            (Name, Description, CreatedBy)
         VALUES
-            (@GenreId, @Name, @Description, @UserId);
+            (@Name, @Description, @UserId);
+        SELECT SCOPE_IDENTITY() AS Id;
     END
-    SELECT @GenreId AS Id;
 END

@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[GetReleaseById]
-	@ReleaseId UNIQUEIDENTIFIER
+	@ReleaseId INT
 AS
 BEGIN
 	SET NOCOUNT ON;

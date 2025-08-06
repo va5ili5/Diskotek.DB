@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[DeleteGenre]
-	@GenreId UNIQUEIDENTIFIER
+	@GenreId INT
 AS
 BEGIN
 	SET NOCOUNT ON;

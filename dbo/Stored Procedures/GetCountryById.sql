@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[GetCountryById]
-	@CountryId UNIQUEIDENTIFIER
+	@CountryId INT
 AS
 BEGIN
 	SET NOCOUNT ON;

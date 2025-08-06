@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[DeleteFormat]
-	@FormatId UNIQUEIDENTIFIER
+	@FormatId INT
 AS
 BEGIN
 	SET NOCOUNT ON;
