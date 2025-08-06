@@ -12,7 +12,9 @@ BEGIN
 	END
 
 	-- Raise an error if the artist does not exist
-	IF NOT EXISTS (SELECT 1 FROM Artists WHERE Id = @ArtistId)
+	IF NOT EXISTS (SELECT 1
+	FROM Artists
+	WHERE Id = @ArtistId)
 	BEGIN
 		RAISERROR('Artist with the specified Id does not exist', 16, 1);
 		RETURN -2;
@@ -27,16 +29,18 @@ BEGIN
 
 	-- Check if the artist is the sole artist on any release
 	IF EXISTS (SELECT ReleaseId
-FROM ReleaseArtists 
-WHERE ArtistId = @ArtistId
-GROUP BY ReleaseId
-HAVING COUNT(*) = 1 AND MAX(ArtistId) = @ArtistId)
+	FROM ReleaseArtists
+	WHERE ArtistId = @ArtistId
+	GROUP BY ReleaseId
+	HAVING COUNT(*) = 1 AND MAX(ArtistId) = @ArtistId)
 	BEGIN
 		RAISERROR('Cannot delete artist because they are the sole artist on one or more releases', 16, 1);
 		RETURN -3;
 	END
 	-- Check if the format exists
-	IF EXISTS (SELECT 1 FROM Artists WHERE Id = @ArtistId)
+	IF EXISTS (SELECT 1
+	FROM Artists
+	WHERE Id = @ArtistId)
 	BEGIN
 		-- Delete records from ReleaseArtists table
 		DELETE ReleaseArtists WHERE ArtistId = @ArtistId;

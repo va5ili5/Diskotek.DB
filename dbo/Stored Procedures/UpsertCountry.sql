@@ -1,31 +1,35 @@
 ﻿
-CREATE PROCEDURE UpsertCountry
-	@Id UNIQUEIDENTIFIER,
+CREATE PROCEDURE [dbo].[UpsertCountry]
+    @Id UNIQUEIDENTIFIER = NULL,
     @CountryCode NVARCHAR(10),
-	@Name NVARCHAR(100),
-	@UserId UNIQUEIDENTIFIER
+    @Name NVARCHAR(100),
+    @IsActive BIT,
+    @UserId UNIQUEIDENTIFIER
 AS
 BEGIN
-	SET NOCOUNT ON;
-
+    SET NOCOUNT ON;
+    DECLARE @CountryId UNIQUEIDENTIFIER = ISNULL(@Id, NEWID());
     -- Check if the country already exists
-    IF EXISTS (SELECT 1 FROM Countries WHERE Id = @Id)
+    IF EXISTS (SELECT 1
+    FROM Countries
+    WHERE Id = @CountryId)
     BEGIN
         -- Update existing country
         UPDATE Countries
         SET Name = @Name,
             Code = @CountryCode,
+			IsActive = @IsActive,
 			UpdatedBy = @UserId,
 			UpdatedAt = SYSUTCDATETIME()
-        WHERE Id = @Id;
+        WHERE Id = @CountryId;
     END
     ELSE
-    BEGIN        
-		-- Insert new country
-        INSERT INTO Countries (Id, Name, Code, CreatedBy, CreatedAt)
-        VALUES (@Id, @Name, @CountryCode, @UserId, SYSUTCDATETIME());
-
-		SELECT @Id AS Id;
+    BEGIN
+        -- Insert new country
+        INSERT INTO Countries
+            (Id, Name, Code, CreatedBy)
+        VALUES
+            (@CountryId, @Name, @CountryCode, @UserId);
     END
+    SELECT @CountryId AS Id;
 END
-    

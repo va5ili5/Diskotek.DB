@@ -12,7 +12,9 @@ BEGIN
 	END
 
 	-- Raise an error if the style does not exist
-	IF NOT EXISTS (SELECT 1 FROM Styles WHERE Id = @StyleId)
+	IF NOT EXISTS (SELECT 1
+	FROM Styles
+	WHERE Id = @StyleId)
 	BEGIN
 		RAISERROR('Style with the specified Id does not exist', 16, 1);
 		RETURN -2;
@@ -26,7 +28,9 @@ BEGIN
 	--END
 
 	-- Check if the style exists
-	IF EXISTS (SELECT 1 FROM Styles WHERE Id = @StyleId)
+	IF EXISTS (SELECT 1
+	FROM Styles
+	WHERE Id = @StyleId)
 	BEGIN
 		-- Delete records from ReleaseStyles table
 		DELETE ReleaseStyles WHERE StyleId = @StyleId;

@@ -1,30 +1,35 @@
 ﻿
-CREATE PROCEDURE UpsertArtist
-	@Id UNIQUEIDENTIFIER,
-	@Name NVARCHAR(100),
+CREATE PROCEDURE [dbo].[UpsertArtist]
+    @Id UNIQUEIDENTIFIER = NULL,
+    @Name NVARCHAR(100),
     @Profile NVARCHAR(MAX),
-	@UserId UNIQUEIDENTIFIER
+    @IsActive BIT,
+    @UserId UNIQUEIDENTIFIER
 AS
 BEGIN
-	SET NOCOUNT ON;
-
+    SET NOCOUNT ON;
+    DECLARE @ArtistId UNIQUEIDENTIFIER = ISNULL(@Id, NEWID());
     -- Check if the artist already exists
-    IF EXISTS (SELECT 1 FROM Artists WHERE Id = @Id)
+    IF EXISTS (SELECT 1
+    FROM Artists
+    WHERE Id = @ArtistId)
     BEGIN
         -- Update existing artist
         UPDATE Artists
         SET Name = @Name,
 			Profile = @Profile,
+			IsActive = @IsActive,
 			UpdatedBy = @UserId,
 			UpdatedAt = SYSUTCDATETIME()
-        WHERE Id = @Id;
+        WHERE Id = @ArtistId;
     END
     ELSE
-    BEGIN        
-		-- Insert new artist
-        INSERT INTO Artists (Id, Name, Profile, CreatedBy, CreatedAt)
-        VALUES (@Id, @Name, @Profile, @UserId, SYSUTCDATETIME());
-
-		SELECT @Id AS Id;
+    BEGIN
+        -- Insert new artist
+        INSERT INTO Artists
+            (Id, Name, Profile, CreatedBy)
+        VALUES
+            (@ArtistId, @Name, @Profile, @UserId);
     END
+    SELECT @ArtistId AS Id;
 END

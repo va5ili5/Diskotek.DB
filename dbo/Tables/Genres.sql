@@ -1,12 +1,12 @@
-﻿CREATE TABLE [dbo].[Genres] (
-    [Id]            UNIQUEIDENTIFIER NOT NULL,
-    [Name]          NVARCHAR (100)   NOT NULL,
-    [Description]   NVARCHAR (MAX)   NULL,
-    [IsActive]  BIT DEFAULT 1,
-    [CreatedAt]     DATETIME         DEFAULT (SYSUTCDATETIME()) NOT NULL,
-    [UpdatedAt]     DATETIME          NULL,
-    [CreatedBy]     UNIQUEIDENTIFIER NOT NULL,
-    [UpdatedBy]     UNIQUEIDENTIFIER NULL,
-    PRIMARY KEY CLUSTERED ([Id] ASC)
+﻿CREATE TABLE [dbo].[Genres]
+(
+    [Id] UNIQUEIDENTIFIER PRIMARY KEY,
+    [Name] NVARCHAR (100) NOT NULL,
+    [Description] NVARCHAR (MAX) NULL,
+    [IsActive] BIT DEFAULT 1,
+    [CreatedAt] DATETIME DEFAULT (SYSUTCDATETIME()) NOT NULL,
+    [UpdatedAt] DATETIME NULL,
+    [CreatedBy] UNIQUEIDENTIFIER NOT NULL,
+    [UpdatedBy] UNIQUEIDENTIFIER NULL
 );
 

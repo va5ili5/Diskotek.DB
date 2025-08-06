@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[ReleaseArtists]
 (
-	[ReleaseId] UNIQUEIDENTIFIER NOT NULL,
+    [ReleaseId] UNIQUEIDENTIFIER NOT NULL,
     [ArtistId] UNIQUEIDENTIFIER NOT NULL,
     PRIMARY KEY (ReleaseId, ArtistId),
     CONSTRAINT FK_ReleaseArtists_Releases FOREIGN KEY (ReleaseId)

@@ -2,11 +2,12 @@
 	@CountryId UNIQUEIDENTIFIER
 AS
 BEGIN
-    SET NOCOUNT ON;
+	SET NOCOUNT ON;
 
 	SELECT
-	Id,
-	Name
-    FROM Countries WHERE Id = @CountryId
-    FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
-END;
+		Id,
+		Name
+	FROM Countries
+	WHERE Id = @CountryId
+	FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
+	END;

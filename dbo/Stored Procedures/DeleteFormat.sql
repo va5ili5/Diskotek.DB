@@ -12,7 +12,9 @@ BEGIN
 	END
 
 	-- Raise an error if the format does not exist
-	IF NOT EXISTS (SELECT 1 FROM Formats WHERE Id = @FormatId)
+	IF NOT EXISTS (SELECT 1
+	FROM Formats
+	WHERE Id = @FormatId)
 	BEGIN
 		RAISERROR('Format with the specified Id does not exist', 16, 1);
 		RETURN -2;
@@ -26,7 +28,9 @@ BEGIN
 	--END
 
 	-- Check if the format exists
-	IF EXISTS (SELECT 1 FROM Formats WHERE Id = @FormatId)
+	IF EXISTS (SELECT 1
+	FROM Formats
+	WHERE Id = @FormatId)
 	BEGIN
 		-- Update release formats to NULL
 		UPDATE Releases

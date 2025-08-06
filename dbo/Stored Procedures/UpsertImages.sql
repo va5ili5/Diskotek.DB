@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[UpsertImages]
-	@Id UNIQUEIDENTIFIER,
-	@EntityId UNIQUEIDENTIFIER = NULL,
+    @Id UNIQUEIDENTIFIER,
+    @EntityId UNIQUEIDENTIFIER = NULL,
     @EntityType NVARCHAR(20) = NULL,
     @ImageUrl NVARCHAR(2048),
     @IsPrimary BIT,
@@ -8,11 +8,13 @@
 AS
 BEGIN
     SET NOCOUNT ON;
-        -- Check if the genre already exists
-        IF EXISTS (SELECT 1 FROM Images WHERE Id = @Id)
+    -- Check if the genre already exists
+    IF EXISTS (SELECT 1
+    FROM Images
+    WHERE Id = @Id)
         BEGIN
-            -- -- Update existing image
-            UPDATE Images
+        -- -- Update existing image
+        UPDATE Images
             SET 
                 ImageUrl = @ImageUrl,
                 IsPrimary = @IsPrimary,
@@ -20,11 +22,13 @@ BEGIN
                 EntityId = @EntityId,
                 EntityType = @EntityType
             WHERE Id = @Id;
-        END
+    END
         ELSE
         BEGIN
-            -- Insert new image
-            INSERT INTO Images (ImageUrl, IsPrimary, SortOrder, EntityId, EntityType)
-            VALUES (@ImageUrl, @IsPrimary, @SortOrder, @EntityId, @EntityType);
-        END
+        -- Insert new image
+        INSERT INTO Images
+            (ImageUrl, IsPrimary, SortOrder, EntityId, EntityType)
+        VALUES
+            (@ImageUrl, @IsPrimary, @SortOrder, @EntityId, @EntityType);
+    END
 END

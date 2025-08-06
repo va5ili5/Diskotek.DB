@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[ReleaseStyles]
 (
-	[ReleaseId] UNIQUEIDENTIFIER NOT NULL,
+    [ReleaseId] UNIQUEIDENTIFIER NOT NULL,
     [StyleId] UNIQUEIDENTIFIER NOT NULL,
     PRIMARY KEY (ReleaseId, StyleId),
     CONSTRAINT FK_ReleaseStyles_Releases FOREIGN KEY (ReleaseId)
