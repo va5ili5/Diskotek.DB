@@ -8,6 +8,5 @@ BEGIN
 		Id,
 		Name
 	FROM Formats
-	WHERE Id = @FormatId
-	FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
-	END;
+	WHERE Id = @FormatId AND IsActive = 1
+END;

@@ -7,19 +7,7 @@ BEGIN
 	SELECT
 		Id,
 		Name,
-		Description,
-		(
-		SELECT TOP 10
-			ReleaseStyle.ReleaseId,
-			Release.Title,
-			Image.ImageUrl
-		FROM Releases Release
-			INNER JOIN Images Image ON Release.Id = Image.EntityId AND Image.EntityType = 'Release' AND Image.IsPrimary = 1
-			INNER JOIN ReleaseStyles ReleaseStyle ON ReleaseStyle.StyleId = @StyleId AND ReleaseStyle.ReleaseId = Release.Id
-		ORDER BY NEWID()
-		FOR JSON PATH
-	) As Releases
+		Description
 	FROM Styles
 	WHERE Id = @StyleId
-	FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
-	END;
+END;

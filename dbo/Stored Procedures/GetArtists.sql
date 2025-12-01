@@ -3,42 +3,28 @@
     @PageSize INT = 10
 AS
 BEGIN
+
     SET NOCOUNT ON;
 
-    DECLARE @Offset INT = (@PageNumber - 1) * @PageSize;
-    DECLARE @TotalCount INT;
-
-    -- Total count of all artists
-    SELECT @TotalCount = COUNT(*)
-    FROM Artists;
-
-    -- CTE to get just the artists for this page
-    ;WITH
-        PagedArtists
-        AS
-        (
-            SELECT Id, Name
-            FROM Artists
-            ORDER BY Name
-        OFFSET @Offset ROWS
-        FETCH NEXT @PageSize ROWS ONLY
-        )
-
     SELECT
-        @TotalCount AS TotalCount,
-        (
-            SELECT
-            Artists.Id,
-            Artists.Name,
-            (
-                    SELECT TOP 1
-                Image.Id,
-                Image.ImageUrl
-            FROM Images Image
-            WHERE Image.EntityId = Artists.Id AND Image.EntityType='Artist' AND Image.IsPrimary = 1
-            FOR JSON PATH, WITHOUT_ARRAY_WRAPPER) As Image
-        FROM PagedArtists Artists
-        FOR JSON PATH, INCLUDE_NULL_VALUES
-        ) AS Artists
-    FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
-    END;
+        artist.Id,
+        artist.Name,
+        artistImage.ImageUrl
+    FROM Artists artist
+	OUTER APPLY(
+		SELECT TOP 1
+            image.ImageUrl
+        FROM Images image
+        WHERE image.EntityId = artist.Id AND image.EntityType='Artist' AND image.IsPrimary = 1
+        ORDER BY image.Id
+	) artistImage
+    WHERE artist.IsActive = 1
+    ORDER BY artist.Name DESC
+    OFFSET (@PageNumber - 1) * @PageSize ROWS
+    FETCH NEXT @PageSize ROWS ONLY;
+
+    -- Total number of releases for this artist
+    SELECT COUNT(*)
+    FROM Artists artists
+    WHERE artists.IsActive = 1
+END;

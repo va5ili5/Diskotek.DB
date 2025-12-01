@@ -7,5 +7,4 @@ BEGIN
         Id,
         Name
     FROM Countries
-    FOR JSON PATH;
-    END;
+END;

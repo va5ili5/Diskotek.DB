@@ -107,6 +107,16 @@
     <Build Include="dbo\Stored Procedures\LoadReferenceData.sql" />
     <Build Include="dbo\Tables\Tracks.sql" />
     <Build Include="dbo\Types\TrackList.sql" />
+    <Build Include="dbo\Stored Procedures\GetReleasesByArtistId.sql" />
+    <Build Include="dbo\Stored Procedures\GetReleasesByGenreId.sql" />
+    <Build Include="dbo\Stored Procedures\GetReleasesByLabelId.sql" />
+    <Build Include="dbo\Stored Procedures\GetReleasesByStyleId.sql" />
+    <Build Include="dbo\Stored Procedures\GetStylesByGenreId.sql" />
+    <Build Include="dbo\Stored Procedures\UpsertUser.sql" />
+    <Build Include="dbo\Stored Procedures\GetUserById.sql" />
+    <Build Include="dbo\Stored Procedures\GetUsers.sql" />
+    <Build Include="dbo\Stored Procedures\SearchReleases.sql" />
+    <Build Include="dbo\Stored Procedures\GetUserIdByEmail.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Snapshots\Diskotek.DB_20250705_23-15-26.dacpac" />

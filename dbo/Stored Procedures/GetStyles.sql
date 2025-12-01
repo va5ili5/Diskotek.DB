@@ -9,5 +9,4 @@ BEGIN
 		Name
 	FROM Styles
 	WHERE @GenreId IS NULL OR GenreId = @GenreId
-	FOR JSON PATH;
 	END;

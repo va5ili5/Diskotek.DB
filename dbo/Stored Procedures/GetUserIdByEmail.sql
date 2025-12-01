@@ -1,0 +1,11 @@
+﻿CREATE PROCEDURE [dbo].[GetUserIdByEmail]
+	@Email NVARCHAR(100)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT
+		Id
+	FROM Users
+	WHERE Email = @Email AND IsActive=1
+END;

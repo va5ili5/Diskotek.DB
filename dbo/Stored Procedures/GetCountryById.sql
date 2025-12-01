@@ -8,6 +8,5 @@ BEGIN
 		Id,
 		Name
 	FROM Countries
-	WHERE Id = @CountryId
-	FOR JSON PATH, WITHOUT_ARRAY_WRAPPER;
-	END;
+	WHERE Id = @CountryId AND IsActive=1
+END;

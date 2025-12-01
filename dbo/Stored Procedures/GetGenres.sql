@@ -7,5 +7,5 @@ BEGIN
         Id,
         Name
     FROM Genres
-    FOR JSON PATH;
-    END;
+    WHERE IsActive = 1
+END;

@@ -2,7 +2,7 @@
 CREATE PROCEDURE [dbo].[UpsertLabel]
     @Id INT = NULL,
     @Name NVARCHAR(100),
-    @Description NVARCHAR(MAX),
+    @Profile NVARCHAR(MAX),
     @IsActive BIT,
     @UserId INT
 AS
@@ -16,7 +16,7 @@ BEGIN
         -- Update existing label
         UPDATE Labels
         SET Name = @Name,
-			Description = @Description,
+			Profile = @Profile,
 			IsActive = @IsActive,
 			UpdatedBy = @UserId,
 			UpdatedAt = SYSUTCDATETIME()
@@ -27,9 +27,9 @@ BEGIN
     BEGIN
         -- Insert new label
         INSERT INTO Labels
-            (Name, Description, CreatedBy)
+            (Name, Profile, CreatedBy)
         VALUES
-            (@Name, @Description, @UserId);
+            (@Name, @Profile, @UserId);
         SELECT SCOPE_IDENTITY() AS Id;
     END
 END
