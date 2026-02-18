@@ -15,7 +15,7 @@ BEGIN
 		SELECT TOP 1
             image.ImageUrl
         FROM Images image
-        WHERE image.EntityId = artist.Id AND image.EntityType='Artist' AND image.IsPrimary = 1
+        WHERE image.EntityId = artist.Id AND image.EntityType=2 AND image.IsPrimary = 1
         ORDER BY image.Id
 	) artistImage
     WHERE artist.IsActive = 1

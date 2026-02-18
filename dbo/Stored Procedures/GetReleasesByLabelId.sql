@@ -13,7 +13,7 @@ BEGIN
 		SELECT TOP 1
 			image.ImageUrl
 		FROM Images image
-		WHERE image.EntityId = release.Id AND image.EntityType='Release' AND image.IsPrimary = 1
+		WHERE image.EntityId = release.Id AND image.EntityType=1 AND image.IsPrimary = 1
 		ORDER BY image.Id
 	) releaseImage
 	WHERE release.LabelId = @LabelId AND release.IsActive = 1

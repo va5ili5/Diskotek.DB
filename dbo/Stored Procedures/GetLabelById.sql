@@ -13,7 +13,7 @@ BEGIN
 		SELECT TOP 1
 			image.ImageUrl
 		FROM Images image
-		WHERE image.EntityId = @LabelId AND image.EntityType='Label' AND image.IsPrimary = 1
+		WHERE image.EntityId = @LabelId AND image.EntityType=3 AND image.IsPrimary = 1
 	) labelImage
     WHERE Id = @LabelId
 END;

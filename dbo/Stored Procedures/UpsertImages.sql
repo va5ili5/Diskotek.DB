@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[UpsertImages]
     @Id INT,
     @EntityId INT = NULL,
-    @EntityType NVARCHAR(20) = NULL,
+    @EntityType INT = NULL,
     @ImageUrl NVARCHAR(2048),
     @IsPrimary BIT,
     @SortOrder INT

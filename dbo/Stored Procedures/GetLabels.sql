@@ -14,7 +14,7 @@ BEGIN
 		SELECT TOP 1
             image.ImageUrl
         FROM Images image
-        WHERE image.EntityId = label.Id AND image.EntityType='Label' AND image.IsPrimary = 1
+        WHERE image.EntityId = label.Id AND image.EntityType=3 AND image.IsPrimary = 1
         ORDER BY image.Id
 	) labelImage
     WHERE label.IsActive = 1

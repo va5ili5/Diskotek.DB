@@ -8,13 +8,20 @@ BEGIN
     SELECT
         release.Id,
         release.Title,
-        releaseImage.ImageUrl
+        releaseImage.ImageUrl,
+		(SELECT 
+            a.Id, 
+            a.Name 
+         FROM Artists a
+         INNER JOIN ReleaseArtists ra ON ra.ArtistId = a.Id
+         WHERE ra.ReleaseId = release.Id
+         FOR JSON PATH) AS Artists
     FROM Releases release
 	OUTER APPLY(
 		SELECT TOP 1
             image.ImageUrl
         FROM Images image
-        WHERE image.EntityId = release.Id AND image.EntityType='Release' AND image.IsPrimary = 1
+        WHERE image.EntityId = release.Id AND image.EntityType=1 AND image.IsPrimary = 1
         ORDER BY image.Id
 	) releaseImage
     WHERE release.IsActive = 1

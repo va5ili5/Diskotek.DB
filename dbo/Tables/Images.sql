@@ -2,7 +2,7 @@
 (
     [Id] INT IDENTITY(1,1) PRIMARY KEY,
     [EntityId] INT NOT NULL,
-    [EntityType] NVARCHAR (50) NOT NULL,
+    [EntityType] INT NOT NULL,
     [ImageUrl] NVARCHAR (500) NOT NULL,
     [SortOrder] INT NOT NULL,
     [IsPrimary] BIT DEFAULT ((0)) NOT NULL,

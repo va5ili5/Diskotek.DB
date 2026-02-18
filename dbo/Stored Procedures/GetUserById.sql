@@ -6,6 +6,7 @@ BEGIN
 
 	SELECT
 		Id,
+		AADUserId,
 		Username,
 		Firstname,
 		Lastname,
