@@ -1,10 +1,13 @@
 ﻿CREATE PROCEDURE [dbo].[UpsertImages]
-    @Id INT,
+    @Id INT = NULL,
     @EntityId INT = NULL,
     @EntityType INT = NULL,
-    @ImageUrl NVARCHAR(2048),
+    @ImageUrl NVARCHAR(MAX),
+    @PublicId NVARCHAR(250),
+    @AltText NVARCHAR (250),
     @IsPrimary BIT,
-    @SortOrder INT
+    @SortOrder INT,
+    @UserId INT
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -18,6 +21,8 @@ BEGIN
             SET 
                 ImageUrl = @ImageUrl,
                 IsPrimary = @IsPrimary,
+                AltText = @AltText,
+                PublicId = @PublicId,
                 SortOrder = @SortOrder,
                 EntityId = @EntityId,
                 EntityType = @EntityType
@@ -29,9 +34,9 @@ BEGIN
         BEGIN
         -- Insert new image
         INSERT INTO Images
-            (ImageUrl, IsPrimary, SortOrder, EntityId, EntityType)
+            (ImageUrl, IsPrimary, AltText, PublicId, SortOrder, EntityId, EntityType, CreatedBy)
         VALUES
-            (@ImageUrl, @IsPrimary, @SortOrder, @EntityId, @EntityType);
+            (@ImageUrl, @IsPrimary, @AltText, @PublicId, @SortOrder, @EntityId, @EntityType, @UserId);
         SELECT SCOPE_IDENTITY() AS Id;
     END
 END

@@ -53,5 +53,14 @@ SELECT
 			ImageUrl
 		FROM Images Images
 		WHERE Images.EntityId = @ReleaseId AND Images.EntityType = 1
-
+		-- Result Set 6: Tracks
+    SELECT
+        Id,
+        Position,
+        Title,
+        Duration,
+		SortOrder
+    FROM Tracks
+    WHERE ReleaseId = @ReleaseId
+    ORDER BY SortOrder
 	END;
